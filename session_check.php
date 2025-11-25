@@ -15,7 +15,7 @@ if (!isset($require_role)) {
 // If student page
 if ($require_role === 'student') {
     if (!isset($_SESSION['student_id'])) {
-        header("Location: login.php");
+        header("Location: index.php");
         exit();
     }
 }
@@ -23,7 +23,7 @@ if ($require_role === 'student') {
 // If admin page
 if ($require_role === 'admin') {
     if (!isset($_SESSION['admin_id'])) {
-        header("Location: login.php");
+        header("Location: index.php");
         exit();
     }
 }

@@ -93,7 +93,7 @@ $conn->close();
             <?php endif; ?>
 
             <footer>
-                <p><a href="login.php">Back to Login</a></p>
+                <p><a href="index.php">Back to Login</a></p>
             </footer>
         </form>
     </div>
