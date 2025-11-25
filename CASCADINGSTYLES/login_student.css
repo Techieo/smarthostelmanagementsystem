@@ -1,0 +1,169 @@
+/* ===== GLOBAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.login-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh; /* full viewport height */
+}
+
+/* ===== LEFT IMAGE SECTION ===== */
+.login-image {
+  flex: 1;
+  overflow: hidden;
+}
+
+.login-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== RIGHT FORM SECTION ===== */
+.login-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f4f7fb;
+}
+
+/* ===== FORM STYLING ===== */
+form {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  color: #003366;
+  font-size: 2rem;
+}
+
+header p {
+  color: #555;
+  margin-top: 5px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #003366;
+  display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #003366;
+}
+
+.forgotpassword_link {
+  text-decoration: none;
+  color: #003366;
+  font-weight: 600;
+}
+
+.forgotpassword_link:hover {
+  text-decoration: underline;
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  background-color: #003366;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #0055a5;
+  transform: translateY(-2px);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column; /* stack image on top of form */
+    height: auto;
+  }
+
+  .login-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .login-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .login-form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="password"] {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+}

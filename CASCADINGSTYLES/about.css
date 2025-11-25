@@ -1,0 +1,445 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  line-height: 1.7;
+  color: #333;
+  background-color: #f5f6f8;
+}
+
+/* ===== NAVBAR ===== */
+.nav-header {
+  width: 100%;
+  background-color: #003366;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar .logo img {
+  height: 45px;
+  transition: height 0.3s ease;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+  color: #1e90ff;
+}
+
+/* ===== DROPDOWN FIX ===== */
+.navbar .nav-links li.dropdown {
+  position: relative; /* parent must be relative */
+}
+
+.navbar .nav-links li.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;        /* directly below parent link */
+  left: 0;          /* align left edge to parent */
+  background-color: #fff;
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+  padding: 0;
+}
+
+.navbar .nav-links li.dropdown.active .dropdown-content {
+  display: block;
+}
+
+.navbar .nav-links li.dropdown .dropdown-content a {
+  display: block;
+  padding: 8px 15px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar .nav-links li.dropdown .dropdown-content a:hover {
+  background-color: rgb(199, 189, 189);
+}
+/* Bell Icon */
+.navbar .icons i.fa-bell {
+  color: #fff;         /* white for visibility */
+  font-size: 1.4rem;   /* keep size consistent */
+  transition: color 0.3s ease;
+}
+
+.navbar .icons i.fa-bell:hover {
+  color: #1e90ff;      /* optional hover color */
+}
+
+
+/* Hamburger & Icons */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  background: #fff;
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  height: calc(100% - 60px);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  padding: 15px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+}
+
+.mobile-menu ul li {
+  margin-bottom: 10px;
+}
+
+.mobile-menu ul li a {
+  color: #02203c;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+  background-color: #f0f0f0;
+}
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 992px) {
+  /* Hide desktop nav links */
+  .navbar .nav-links {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .hamburger {
+    display: flex;
+    order: 1; /* left side */
+  }
+
+  /* Keep icons container full width */
+  .navbar .icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    order: 2;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Bell stays on right */
+  .navbar .icons i.fa-bell {
+    order: 2;
+  }
+
+  /* Optionally hide logo on mobile */
+  .navbar .logo {
+    display: none;
+  }
+}
+/* MAIN STYLING */
+/* ===== MAIN CONTENT ===== */
+.about-main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.about-header-section {
+    border-bottom: 2px solid #003366;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.about-title {
+    color: #003366;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.about-tagline {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Sections */
+.about-section {
+    background-color: #fff;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    border-left: 5px solid #003366;
+    border-radius: 4px;
+}
+
+.about-section-title {
+    color: #003366;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.about-subtitle {
+    color: #02203c;
+    font-size: 1.3rem;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.about-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.about-list {
+    margin-left: 25px;
+    list-style-type: disc;
+}
+
+.about-ol {
+    margin-left: 25px;
+}
+
+/* Footer Note */
+.about-footer-note p {
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9rem;
+}
+/* FOOTER */
+/* THE FOOTER */
+.shms-footer {
+    background-color: #002233;
+    color: #ffffff;
+    width: 100%;
+    padding: 60px 0 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ===== 4-Column Grid ===== */
+.shms-footer-columns {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr; /* Adjusted column widths for balance */
+    gap: 40px; /* Reduce gap to bring columns closer */
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* Ensures all columns start at the same top */
+}
+
+/* Column Titles */
+.shms-footer-columns h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 0;       /* Ensure all headings start at same top */
+    margin-bottom: 15px; /* Consistent spacing under headings */
+    border-left: 4px solid #ff9900;
+    padding-left: 10px;
+}
+
+/* Column Content */
+.shms-footer-columns p,
+.shms-footer-columns a,
+.shms-footer-columns li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d9e6f2;
+}
+
+.shms-footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shms-footer-columns a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.shms-footer-columns a:hover {
+    color: #ff9900;
+    padding-left: 4px;
+}
+
+/* Stack content under titles */
+.shms-footer-about,
+.shms-footer-quicklinks,
+.shms-footer-services,
+.shms-footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Slightly smaller gap for tighter alignment */
+}
+
+/* Social icons */
+.shms-footer-socials ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduce gap to align better with text */
+}
+
+/* Ensure Socials heading aligns with other columns */
+.shms-footer-socials h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== Legal Links ===== */
+.shms-footer-legal {
+    background-color: #ff9900;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.shms-footer-legal nav {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.shms-footer-legal a {
+    color: #002233;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.shms-footer-legal a:hover {
+    color: maroon;
+}
+
+/* ===== Copyright ===== */
+.shms-footer-copy {
+    background-color: #001722;
+    padding: 12px 0;
+}
+
+.shms-footer-copy p {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    color: #d9e6f2;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .shms-footer-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        gap: 30px;
+        align-items: start; /* keep headings aligned */
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* slightly smaller headings for smaller screens */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px; /* smaller text */
+    }
+
+    .shms-footer-legal nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .shms-footer-columns {
+        grid-template-columns: 1fr; /* stack all columns vertically */
+        gap: 20px;
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* keep headings readable */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px;
+    }
+
+    .shms-footer-legal nav {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    /* Optional: center-align content for single-column layout */
+    .shms-footer-about,
+    .shms-footer-quicklinks,
+    .shms-footer-services,
+    .shms-footer-socials {
+        align-items: center;
+        text-align: center;
+    }
+
+    .shms-footer-socials ul li {
+        justify-content: center; /* center icons with text */
+    }
+}

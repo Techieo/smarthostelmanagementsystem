@@ -1,0 +1,435 @@
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f0f4ff;
+  color: #02203c;
+}
+
+/* ===== HEADER & NAVBAR ===== */
+header {
+  width: 100%;
+  background-color: #003366;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Logo */
+nav .logo {
+  flex-shrink: 0; /* keeps logo fully on the left */
+}
+
+nav .logo img {
+  height: 45px;
+  transition: height 0.3s ease;
+}
+
+/* Navigation links */
+nav .nav-links {
+  display: flex;
+  gap: 20px;          /* smaller gap between links */
+  list-style: none;
+  margin-left: 100px;  /* moves links closer to logo */
+}
+
+nav .nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav .nav-links li a:hover {
+  color: #1e90ff;
+}
+
+/* Icons */
+nav .icons-left,
+nav .icons-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* spacing between multiple icons if any */
+}
+
+/* Bell icon next to logout */
+nav .icons-right {
+  margin-left: 50px; /* small gap after logout button */
+}
+
+nav .icons-right i {
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0; /* no extra margin needed here */
+}
+
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 250px;
+  height: calc(100% - 60px);
+  background: #ffffff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  padding: 15px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+}
+
+.mobile-menu ul li a {
+  display: block;
+  padding: 10px 15px;
+  font-weight: 600;
+  color: #02203c;
+  background: #fff;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+  background: #f0f0f0;
+}
+
+/* Mobile Header Layout */
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    justify-content: space-between; /* hamburger left, bell right */
+    align-items: center;
+    padding: 12px 15px;
+  }
+
+  /* Hamburger styling */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  /* Bell styling */
+  .mobile-bell i {
+    font-size: 1.4rem;
+    color: #fff;
+  }
+
+  /* Hide desktop nav/logo */
+  nav .nav-links,
+  nav .logo {
+    display: none;
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 250px;
+    height: calc(100% - 60px);
+    background: #fff;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    padding: 15px;
+    overflow-y: auto;
+    z-index: 999;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .mobile-menu.active {
+    transform: translateX(0);
+  }
+}
+
+/* MAIN */
+/* ===== Base Styles ===== */
+.admin-rooms {
+    padding: 40px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: #f7f9fc;
+    color: #02203c;
+}
+
+.admin-rooms-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #003366;
+    border-bottom: 2px solid #ff9900;
+    padding-bottom: 10px;
+}
+
+/* ===== Quick Action Button ===== */
+.admin-room-actions {
+    margin-bottom: 20px;
+}
+
+.admin-add-room-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #003366;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.admin-add-room-btn:hover {
+    background-color: #ff9900;
+    color: #02203c;
+    transform: translateY(-2px);
+}
+
+/* ===== Table Styles ===== */
+.admin-rooms-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.admin-rooms-table th,
+.admin-rooms-table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.admin-rooms-table th {
+    background-color: #003366;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.admin-rooms-table tbody tr:nth-child(even) {
+    background-color: #f2f4f8;
+}
+
+.admin-rooms-table tbody tr:hover {
+    background-color: #e6f0ff;
+}
+
+/* ===== Occupancy Status Colors ===== */
+.admin-rooms-table td[data-status="Occupied"] {
+    color: #d9534f; /* red-ish */
+    font-weight: 600;
+}
+
+.admin-rooms-table td[data-status="Vacant"] {
+    color: #5cb85c; /* green */
+    font-weight: 600;
+}
+
+/* ===== Action Links ===== */
+.admin-room-action {
+    color: #003366;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.admin-room-action:hover {
+    color: #ff9900;
+}
+
+.admin-room-action.delete:hover {
+    color: #d9534f;
+}
+
+/* ===== RESPONSIVE ENHANCEMENTS FOR ADMIN ROOMS / STUDENTS ===== */
+@media (max-width: 900px) {
+    /* Reduce padding for the main container */
+    .admin-rooms {
+        padding: 20px;
+    }
+
+    /* Table padding & font adjustments */
+    .admin-rooms-table th,
+    .admin-rooms-table td {
+        padding: 6px 8px;
+        font-size: 14px;
+    }
+
+    /* Quick action button full width */
+    .admin-add-room-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 0;
+        font-size: 16px;
+    }
+
+    /* Wrap long table text */
+    .admin-rooms-table td,
+    .admin-rooms-table th {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    /* Action links smaller spacing */
+    .admin-room-action {
+        gap: 3px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Table scroll horizontally on very small screens */
+    .admin-rooms-table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    /* Reduce title size */
+    .admin-rooms-title {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    /* Buttons slightly smaller */
+    .admin-add-room-btn {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    /* Table font smaller */
+    .admin-rooms-table th,
+    .admin-rooms-table td {
+        font-size: 12px;
+    }
+}
+/* due dates form */
+/* ===== CONTAINER ===== */
+.shms-due-dates-container {
+    background: #ffffff;
+    padding: 25px;
+    width: 100%;
+    max-width: 600px;
+    margin: 25px auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.shms-due-dates-title {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.shms-due-dates-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.shms-due-group h4 {
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.shms-due-group label {
+    display: block;
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+.shms-due-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #bfc9d8;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* Button */
+.shms-due-btn {
+    width: 100%;
+    padding: 12px;
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.shms-due-btn:hover {
+    background: #00509e;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .shms-due-dates-container {
+        padding: 15px;
+    }
+
+    .shms-due-group input {
+        padding: 8px;
+    }
+
+    .shms-due-btn {
+        padding: 10px;
+    }
+}

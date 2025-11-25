@@ -1,0 +1,582 @@
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f0f4ff;
+  color: #02203c;
+}
+
+/* ===== HEADER & NAVBAR ===== */
+header {
+  width: 100%;
+  background-color: #003366;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+nav .logo img {
+  height: 45px;
+  transition: height 0.3s ease;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav .nav-links li {
+  position: relative;
+}
+
+nav .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav .nav-links a:hover {
+  color: #1e90ff;
+}
+
+/* Dropdown */
+nav .nav-links li.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  min-width: 180px;
+  z-index: 1000;
+  padding: 0;
+}
+
+nav .nav-links li.dropdown.active .dropdown-content {
+  display: block !important;
+}
+
+nav .nav-links li.dropdown .dropdown-content a {
+  display: block;
+  padding: 8px 15px;
+  color: #003366;
+  text-decoration: none;
+}
+
+nav .nav-links li.dropdown .dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Icons */
+nav .icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav .icons i {
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white !important;
+  border-radius: 2px;
+}
+
+/* ===== MOBILE MENU ===== */
+.mobile-menu {
+  background: #fff;
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  height: calc(100% - 60px);
+  transform: translateX(-100%);
+  transition: 0.3s;
+  padding: 15px;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu ul li {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.mobile-menu ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+  background-color: #1e90ff;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content {
+  display: none;
+  padding-left: 15px;
+}
+
+.mobile-menu ul li.dropdown.active .dropdown-content {
+  display: block;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content a {
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content a:hover {
+  background-color: #1e90ff;
+}
+
+/* Navbar + hamburger + bell */
+@media (max-width: 768px) {
+  nav .nav-links,
+  nav .logo {
+    display: none !important;
+  }
+
+  .icons {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .icons i.fa-bell {
+    display: block !important;
+    font-size: 1.6rem;
+    color: #fff;
+  }
+}
+
+/* ================= MAIN ================= */
+.shms-main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #02203c;
+  line-height: 1.7;
+}
+
+.shms-title {
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.shms-subtitle {
+  font-size: 1.8rem;
+  color: #1e90ff;
+  margin-bottom: 20px;
+}
+
+.shms-section {
+  margin-bottom: 35px;
+}
+
+.shms-section-title {
+  font-size: 1.4rem;
+  color: #003366;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #1e90ff;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.shms-section-text {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.shms-list {
+  margin-left: 25px;
+  margin-bottom: 15px;
+}
+
+.shms-list li {
+  margin-bottom: 10px;
+}
+
+/* ===== RESPONSIVE TABLE ===== */
+.shms-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.shms-table-responsive table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.shms-table-responsive table th,
+.shms-table-responsive table td {
+  border: 1px solid #003366;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.shms-table-responsive table th {
+  background-color: #003366;
+  color: #fff;
+}
+
+.shms-table-responsive table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.shms-table-responsive table tbody tr:hover {
+  background-color: #e0e0e0;
+  color: #02203c;
+}
+
+/* ===== FORMS ===== */
+main form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+main form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+main form input[type="text"],
+main form input[type="email"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+main form input[type="submit"] {
+  background-color: #003366;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+main form input[type="submit"]:hover {
+  background-color: #1e90ff;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px 0;
+  background-color: #003366;
+  color: #fff;
+  font-size: 0.9rem;
+  border-top: 3px solid #1e90ff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .shms-main {
+    margin: 20px;
+    padding: 0 15px;
+  }
+
+  .shms-title {
+    font-size: 1.7rem;
+  }
+
+  .shms-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .shms-section-title {
+    font-size: 1.2rem;
+  }
+
+  main form input[type="submit"] {
+    width: 100%;
+  }
+
+  .shms-table-responsive table th,
+  .shms-table-responsive table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .shms-title {
+    font-size: 1.5rem;
+  }
+
+  .shms-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .shms-section-title {
+    font-size: 1rem;
+  }
+
+  .shms-list {
+    margin-left: 15px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+}
+/* FOOTER */
+/* FOOTER */
+/* THE FOOTER */
+.shms-footer {
+    background-color: #002233;
+    color: #ffffff;
+    width: 100%;
+    padding: 60px 0 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ===== 4-Column Grid ===== */
+.shms-footer-columns {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr; /* Adjusted column widths for balance */
+    gap: 40px; /* Reduce gap to bring columns closer */
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* Ensures all columns start at the same top */
+}
+
+/* Column Titles */
+.shms-footer-columns h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 0;       /* Ensure all headings start at same top */
+    margin-bottom: 15px; /* Consistent spacing under headings */
+    border-left: 4px solid #ff9900;
+    padding-left: 10px;
+}
+
+/* Column Content */
+.shms-footer-columns p,
+.shms-footer-columns a,
+.shms-footer-columns li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d9e6f2;
+}
+
+.shms-footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shms-footer-columns a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.shms-footer-columns a:hover {
+    color: #ff9900;
+    padding-left: 4px;
+}
+
+/* Stack content under titles */
+.shms-footer-about,
+.shms-footer-quicklinks,
+.shms-footer-services,
+.shms-footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Slightly smaller gap for tighter alignment */
+}
+
+/* Social icons */
+.shms-footer-socials ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduce gap to align better with text */
+}
+
+/* Ensure Socials heading aligns with other columns */
+.shms-footer-socials h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== Legal Links ===== */
+.shms-footer-legal {
+    background-color: #ff9900;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.shms-footer-legal nav {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.shms-footer-legal a {
+    color: #002233;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.shms-footer-legal a:hover {
+    color: maroon;
+}
+
+/* ===== Copyright ===== */
+.shms-footer-copy {
+    background-color: #001722;
+    padding: 12px 0;
+}
+
+.shms-footer-copy p {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    color: #d9e6f2;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .shms-footer-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        gap: 30px;
+        align-items: start; /* keep headings aligned */
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* slightly smaller headings for smaller screens */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px; /* smaller text */
+    }
+
+    .shms-footer-legal nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .shms-footer-columns {
+        grid-template-columns: 1fr; /* stack all columns vertically */
+        gap: 20px;
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* keep headings readable */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px;
+    }
+
+    .shms-footer-legal nav {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    /* Optional: center-align content for single-column layout */
+    .shms-footer-about,
+    .shms-footer-quicklinks,
+    .shms-footer-services,
+    .shms-footer-socials {
+        align-items: center;
+        text-align: center;
+    }
+
+    .shms-footer-socials ul li {
+        justify-content: center; /* center icons with text */
+    }
+}

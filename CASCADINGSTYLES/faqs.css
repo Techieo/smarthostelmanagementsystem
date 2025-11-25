@@ -1,0 +1,536 @@
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f0f4ff;
+  color: #02203c;
+}
+
+/* ===== HEADER & NAVBAR ===== */
+header {
+  width: 100%;
+  background-color: #003366;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+nav .logo img {
+  height: 45px;
+  transition: height 0.3s ease;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav .nav-links li {
+  position: relative;
+}
+
+nav .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav .nav-links a:hover {
+  color: #1e90ff;
+}
+
+/* Dropdown */
+nav .nav-links li.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  min-width: 180px;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+}
+
+nav .nav-links li.dropdown.active .dropdown-content {
+  display: block !important;
+}
+
+nav .nav-links li.dropdown .dropdown-content a {
+  display: block;
+  padding: 8px 15px;
+  color: #fff;
+}
+
+nav .nav-links li.dropdown .dropdown-content a:hover {
+  background-color:  rgb(199, 189, 189);
+}
+
+/* Icons */
+nav .icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav .icons i {
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* ===== MOBILE MENU ===== */
+.mobile-menu {
+  background: #ffffff;
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 60px;
+  height: calc(100% - 60px);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  padding: 15px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu ul li {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.mobile-menu ul li a {
+  color: #02203c;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+  background-color: #f0f0f0;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content {
+  display: none;
+  padding-left: 15px;
+}
+
+.mobile-menu ul li.dropdown.active .dropdown-content {
+  display: block;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content a {
+  color: #02203c;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.mobile-menu ul li.dropdown .dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+
+/* Navbar + hamburger + bell */
+@media (max-width: 768px) {
+  nav .nav-links,
+  nav .logo {
+    display: none !important;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+  }
+
+  .icons {
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .icons i.fa-bell {
+    display: block !important;
+    font-size: 1.6rem;
+    color: #fff;
+  }
+}
+
+
+
+/* MAIN */
+/* ===== Modern FAQ Styling ===== */
+
+
+/* Header for FAQ page */
+main h1 {
+    font-size: 30px;
+    color: #1e90ff;
+    text-align: left;   /* Align heading to the left */
+    margin-bottom: 10px;
+}
+
+/* Paragraph below heading */
+main p {
+    max-width: 800px;       /* Limit width for readability */
+    text-align: left;       /* Align paragraph to the left */
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+
+/* FAQ Section Cards */
+section {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px;
+}
+
+section h2 {
+    font-size: 1.6rem;
+    color: #1e90ff;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #1e90ff;
+    padding-bottom: 5px;
+}
+
+/* Collapsible FAQ Items */
+dl dt {
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #f0f4f8;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: background 0.3s;
+    position: relative;
+}
+
+dl dt:hover {
+    background-color: #e0ebf8;
+}
+
+dl dt::after {
+    content: "\25BC"; /* down arrow */
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s;
+}
+
+dl dt.active::after {
+    transform: rotate(180deg); /* rotate arrow */
+}
+
+dl dd {
+    padding: 10px 15px 10px 20px;
+    margin-bottom: 10px;
+    display: none;
+    background: #f9fbfd;
+    border-left: 3px solid #1e90ff;
+    border-radius: 0 8px 8px 0;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+dd strong {
+    color: #1e90ff;
+}
+
+/* Footer */
+
+/* ===== Media Queries ===== */
+@media screen and (max-width: 768px) {
+    main h1 {
+        font-size: 2rem;
+    }
+
+    section h2 {
+        font-size: 1.4rem;
+    }
+
+    dl dt {
+        font-size: 1rem;
+    }
+
+    dl dd {
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    main h1 {
+        font-size: 1.8rem;
+    }
+
+    section h2 {
+        font-size: 1.2rem;
+    }
+
+    dl dt {
+        font-size: 0.95rem;
+    }
+
+    dl dd {
+        font-size: 0.9rem;
+    }
+}
+/* FOOTER */
+/* FOOTER */
+/* THE FOOTER */
+.shms-footer {
+    background-color: #002233;
+    color: #ffffff;
+    width: 100%;
+    padding: 60px 0 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ===== 4-Column Grid ===== */
+.shms-footer-columns {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr; /* Adjusted column widths for balance */
+    gap: 40px; /* Reduce gap to bring columns closer */
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* Ensures all columns start at the same top */
+}
+
+/* Column Titles */
+.shms-footer-columns h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 0;       /* Ensure all headings start at same top */
+    margin-bottom: 15px; /* Consistent spacing under headings */
+    border-left: 4px solid #ff9900;
+    padding-left: 10px;
+}
+
+/* Column Content */
+.shms-footer-columns p,
+.shms-footer-columns a,
+.shms-footer-columns li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d9e6f2;
+}
+
+.shms-footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shms-footer-columns a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.shms-footer-columns a:hover {
+    color: #ff9900;
+    padding-left: 4px;
+}
+
+/* Stack content under titles */
+.shms-footer-about,
+.shms-footer-quicklinks,
+.shms-footer-services,
+.shms-footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Slightly smaller gap for tighter alignment */
+}
+
+/* Social icons */
+.shms-footer-socials ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduce gap to align better with text */
+}
+
+/* Ensure Socials heading aligns with other columns */
+.shms-footer-socials h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== Legal Links ===== */
+.shms-footer-legal {
+    background-color: #ff9900;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.shms-footer-legal nav {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.shms-footer-legal a {
+    color: #002233;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.shms-footer-legal a:hover {
+    color: maroon;
+}
+
+/* ===== Copyright ===== */
+.shms-footer-copy {
+    background-color: #001722;
+    padding: 12px 0;
+}
+
+.shms-footer-copy p {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    color: #d9e6f2;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .shms-footer-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        gap: 30px;
+        align-items: start; /* keep headings aligned */
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* slightly smaller headings for smaller screens */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px; /* smaller text */
+    }
+
+    .shms-footer-legal nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .shms-footer-columns {
+        grid-template-columns: 1fr; /* stack all columns vertically */
+        gap: 20px;
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* keep headings readable */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px;
+    }
+
+    .shms-footer-legal nav {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    /* Optional: center-align content for single-column layout */
+    .shms-footer-about,
+    .shms-footer-quicklinks,
+    .shms-footer-services,
+    .shms-footer-socials {
+        align-items: center;
+        text-align: center;
+    }
+
+    .shms-footer-socials ul li {
+        justify-content: center; /* center icons with text */
+    }
+}
