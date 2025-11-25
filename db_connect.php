@@ -1,9 +1,9 @@
 <?php
 // Database configuration
-$hostname = "localhost";     // Server name
-$username = "root";          // Database username
-$password = "";              // Database password
-$database = "smart_db"; // Your database name
+$hostname = "sql100.infinityfree.com";     // Server name
+$username = "if0_40512456";          // Database username
+$password = "JQHuidZzwpCqnVq";              // Database password
+$database = "if0_40512456_smart_db"; // Your database name
 
 // Create connection
 $conn = new mysqli($hostname, $username, $password, $database);
