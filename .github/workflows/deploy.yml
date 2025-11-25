@@ -15,8 +15,8 @@ jobs:
       - name: Upload files to InfinityFree via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ftpupload.net
+          username: if0_40505763
+          password: sj0JJPSTYXf7
           local-dir: "./"
           server-dir: "/htdocs/"
