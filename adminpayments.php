@@ -25,25 +25,31 @@ $result = $conn->query($sql);
 <body>
 
 <header>
-<nav>
-  <div class="icons-left">
-    <div class="hamburger" id="hamburgerAdmin"><span></span><span></span><span></span></div>
-  </div>
-  <div class="logo">
-    <img src="Img/favicon.jpg" alt="SHMS Logo">
-  </div>
-  <ul class="nav-links">
-    <li><a href="dashboardadmin.php">Dashboard</a></li>
-    <li><a href="adminmanagerooms.php">Manage Rooms</a></li>
-    <li><a href="adminmanagestudents.php">Manage Students</a></li>
-    <li><a href="adminpayments.php">Payments</a></li>
-    <li><a href="admin_complaints.php">Complaints</a></li>
-    <li><a href="logout.php">Log out</a></li>
-  </ul>
-  <div class="icons-right">
-    <i class="fa-regular fa-bell"></i>
-  </div>
-</nav>
+  <nav>
+    <div class="icons-left">
+      <div class="hamburger" id="hamburgerAdmin">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="logo">
+      <img src="Img/favicon.jpg" alt="SHMS Logo">
+    </div>
+
+    
+
+    <ul class="nav-links">
+      <li><a href="dashboardadmin.php">Dashboard</a></li>
+      <li><a href="adminmanagerooms.php">Manage Rooms</a></li>
+      <li><a href="adminmanagestudents.php">Manage Students</a></li>
+      <li><a href="adminpayments.php">Payments</a></li>
+      <li><a href="admin_complaints.php">Complaints</a></li>
+      <li><a href="logout.php">Log out</a></li>
+    </ul>
+    <div class="icons-right">
+      <i class="fa-regular fa-bell"></i>
+    </div>
+  </nav>
 </header>
 
 <div class="mobile-menu" id="mobileMenuAdmin">
@@ -56,27 +62,31 @@ $result = $conn->query($sql);
     <li><a href="logout.php">Log out</a></li>
   </ul>
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburgerAdmin");
   const mobileMenu = document.getElementById("mobileMenuAdmin");
 
-  hamburger.addEventListener("click", (e) => {
-    e.stopPropagation();
+  hamburger.addEventListener("click", (event) => {
+    event.stopPropagation();
     mobileMenu.classList.toggle("active");
   });
 
-  document.addEventListener("click", (e) => {
-    if(!mobileMenu.contains(e.target) && !hamburger.contains(e.target)){
+  // Close mobile menu when clicking outside
+  document.addEventListener("click", (event) => {
+    if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target)) {
       mobileMenu.classList.remove("active");
     }
   });
 
+  // Close menu when clicking a link
   mobileMenu.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => mobileMenu.classList.remove("active"));
+    link.addEventListener("click", () => {
+      mobileMenu.classList.remove("active");
+    });
   });
 });
+
 </script>
 
 <main style="padding:20px;">
