@@ -1,6 +1,8 @@
 <?php
 // Connect to database
-$conn = new mysqli("localhost", "root", "", "smart_db");
+$conn = new mysqli("sql100.infinityfree.com", "if0_40512456", "JQHuidZzwpCqnVq", "if0_40512456_smart_db");
+
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -9,6 +11,7 @@ if ($conn->connect_error) {
 $sql = "SELECT *, personal_email AS email FROM students ORDER BY student_id ASC";
 $result = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
