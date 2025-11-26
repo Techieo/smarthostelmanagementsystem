@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "smart_db");
+$conn = new mysqli("sql100.infinityfree.com", "if0_40512456", "JQHuidZzwpCqnVq", "if0_40512456_smart_db");
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
