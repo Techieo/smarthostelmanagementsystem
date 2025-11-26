@@ -28,16 +28,17 @@
       
       <!-- Updated Dropdown -->
       <li class="dropdown">
-        <button type="button" class="dropdown-toggle">
-          More <i class="fa-solid fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-          <a href="help_FAQs.php" style="background-color:#fff;color:black;">FAQ</a>
-          <a href="rules_regulations.php" style="background-color:#fff;color:black;">Rules & Regulations</a>
-          <a href="profile.php" style="background-color:#fff;color:black;">Profile</a>
-          <a href="logout.php" style="background-color:#fff;color:black;">Log out</a>
-        </div>
-      </li>
+  <button type="button" class="dropdown-toggle">
+    More <i class="fa-solid fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content">
+    <a href="help_FAQs.php">FAQ</a>
+    <a href="rules_regulations.php">Rules & Regulations</a>
+    <a href="profile.php">Profile</a>
+    <a href="logout.php">Log out</a>
+  </div>
+</li>
+
     </ul>
 
     <div class="icons">
