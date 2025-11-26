@@ -64,7 +64,7 @@ $rooms = $conn->query("SELECT * FROM rooms ORDER BY room_id ASC");
 <link rel="stylesheet" href="CASCADINGSTYLES/managerooms.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link rel="icon" href="Img/favicon.jpg">
-<title>Manage Rooms - Smart Hostel Management System (SHMS)</title>
+<title>Manage Rooms | Smart Hostel Management System</title>
 <style>
 /* Modal Styles */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background: rgba(0,0,0,0.6);}

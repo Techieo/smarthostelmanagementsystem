@@ -17,7 +17,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="CASCADINGSTYLES/managestudents.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="icon" href="Img/favicon.jpg">    
-    <title>Manage Students | SHMS</title>
+    <title>Manage Students | Smart Hostel Management System</title>
 </head>
 <body>
 

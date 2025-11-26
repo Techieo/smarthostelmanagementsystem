@@ -26,7 +26,7 @@ if ($result && $result->num_rows > 0) {
     <script src="JAVASCRIPT_SHMS/book_room.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="Img/favicon.jpg"/>  
-    <title>Book Room - Smart Hostel Management System</title>
+    <title>Book Room | Smart Hostel Management System</title>
 </head>
 <body>
 <header>

@@ -26,7 +26,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Complaint | SHMS</title>
+<title>View Complaint | Smart Hostel Management</title>
 <link rel="stylesheet" href="CASCADINGSTYLES/resetpassword.css"> <!-- reuse existing styles if you want -->
 <style>
 body {

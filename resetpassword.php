@@ -137,7 +137,7 @@ $conn->close();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reset Password | SHMS</title>
+<title>Reset Password | Smart Hostel Management System</title>
 <link rel="icon" href="Img/favicon.jpg" />
 <link rel="stylesheet" href="CASCADINGSTYLES/resetpassword.css">
 </head>

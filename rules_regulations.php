@@ -9,7 +9,7 @@
     <script src="JAVASCRIPT_SHMS/rules_regulations_student.js" defer></script>
     <link rel="icon" href="Img/favicon.jpg" />  
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Hostel Management System</title>
+    <title>Rules & Regulations | Smart Hostel Management System</title>
   </head>
   <body>
     <header>

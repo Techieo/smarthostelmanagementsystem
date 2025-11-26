@@ -32,7 +32,7 @@ $latest_notification = $conn->query("SELECT title, message FROM notifications WH
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | Smart Hostel MS</title>
+<title>Dashboard | Smart Hostel Management System</title>
 <link rel="stylesheet" href="CASCADINGSTYLES/dashboard_student.css">
 <link rel="icon" href="Img/favicon.jpg">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

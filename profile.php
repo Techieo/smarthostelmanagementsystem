@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="JAVASCRIPT_SHMS/profile_student.js" defer></script>
     <link rel="icon" href="Img/favicon.jpg">
-    <title>Profile Settings | Smart Hostel Management System (SHMS)</title>
+    <title>Profile Settings | Smart Hostel Management System</title>
 </head>
 <body>
 

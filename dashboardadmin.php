@@ -52,7 +52,7 @@ if($recentActivitiesResult) {
     <script src="JAVASCRIPT_SHMS/admin_dashboard.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="icon" href="Img/favicon.jpg">
-    <title>Admin Dashboard - Smart Hostel Management System (SHMS)</title>
+    <title>Admin Dashboard | Smart Hostel Management System</title>
 </head>
 <body>
 <header>
