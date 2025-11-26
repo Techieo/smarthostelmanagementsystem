@@ -108,25 +108,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
 }
 ?>
 
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CASCADINGSTYLES/profile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="JAVASCRIPT_SHMS/profile_student.js" defer></script>
+    <script src="JAVASCRIPT_SHMS/test.js" defer></script>
+    <link rel="stylesheet" href="CASCADINGSTYLES/test.css">
     <link rel="icon" href="Img/favicon.jpg">
-    <title>Profile Settings | Smart Hostel Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Test | Smart Hostel Management System</title>
 </head>
 <body>
-
-    <header>
+    
+<header>
   <nav>
     <div class="logo">
       <img src="Img/favicon.jpg" alt="SHMS Logo">
@@ -142,10 +137,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
       <li class="dropdown">
         <a href="#">More <i class="fa-solid fa-caret-down"></i></a>
         <div class="dropdown-content">
-          <a href="help_FAQs.php" style="background-color:#fff;color:black;">FAQ</a>
-          <a href="rules_regulations.php" style="background-color:#fff;color:black;">Rules & Regulations</a>
-          <a href="profile.php" style="background-color:#fff;color:black;">Profile</a>
-          <a href="logout.php" style="background-color:#fff;color:black;">Log out</a>
+          <a href="help_FAQs.php">FAQ</a>
+          <a href="rules_regulations.php">Rules & Regulations</a>
+          <a href="profile.php">Profile</a>
+          <a href="logout.php">Log out</a>
         </div>
       </li>
     </ul>
@@ -174,8 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
     <li><a href="logout.php">Log out</a></li>
   </ul>
 </div>
-
-    <main>
+<!-- MAIN -->
+ <main>
     <section id="profile-dashboard">
         <h2 class="profile-title">Profile Settings</h2>
 
