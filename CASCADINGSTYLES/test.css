@@ -238,3 +238,347 @@ nav .icons i {
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
+/* MAIN */
+/* MAIN */
+
+/* ===== PROFILE DASHBOARD ===== */
+#profile-dashboard {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+/* ===== PAGE TITLE ===== */
+#profile-dashboard h2.profile-title {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 30px;
+}
+
+/* ===== PROFILE PHOTO & UPLOAD ===== */
+#profile-photo-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#profile-photo-wrapper figure {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0;
+}
+
+#profile-photo-wrapper img#profile-photo {
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 50% !important;
+    object-fit: cover;
+    border: 4px solid #003366;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* #profile-photo-wrapper img#profile-photo:hover {
+    transform: scale(1.05);
+} */
+
+#upload-btn {
+    position: absolute;
+    bottom: 0;       /* move to bottom */
+    right: 0;        /* align to right edge */
+    transform: translate(25%, 25%); /* slightly outside the circle for overlap */
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #1e90ff;
+    color: white;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#upload-btn:hover {
+    background-color: #0055a5;
+}
+
+
+#profile-photo-wrapper figcaption {
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #02203c;
+    text-align: center;
+}
+
+/* ===== FORMS ===== */
+#profile-form-area {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+#profile-form-area fieldset {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fff;
+}
+
+#profile-form-area legend h3 {
+    color: #003366;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+#profile-form-area label {
+    display: block;
+    margin: 12px 0 5px;
+    font-weight: 600;
+}
+
+#profile-form-area input,
+#profile-form-area select,
+#profile-form-area textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#profile-form-area textarea {
+    resize: vertical;
+}
+
+/* ===== BUTTONS ===== */
+#profile-form-area button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    background-color: #003366;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+#profile-form-area button:hover {
+    background-color: #0055a5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    #profile-form-area {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    #profile-photo-wrapper figure {
+        width: 120px;
+        height: 120px;
+    }
+    #profile-photo-wrapper img#profile-photo {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    #upload-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}
+/* FOOTER */
+/* THE FOOTER */
+.shms-footer {
+    background-color: #002233;
+    color: #ffffff;
+    width: 100%;
+    padding: 60px 0 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ===== 4-Column Grid ===== */
+.shms-footer-columns {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr; /* Adjusted column widths for balance */
+    gap: 40px; /* Reduce gap to bring columns closer */
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* Ensures all columns start at the same top */
+}
+
+/* Column Titles */
+.shms-footer-columns h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 0;       /* Ensure all headings start at same top */
+    margin-bottom: 15px; /* Consistent spacing under headings */
+    border-left: 4px solid #ff9900;
+    padding-left: 10px;
+}
+
+/* Column Content */
+.shms-footer-columns p,
+.shms-footer-columns a,
+.shms-footer-columns li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d9e6f2;
+}
+
+.shms-footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shms-footer-columns a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.shms-footer-columns a:hover {
+    color: #ff9900;
+    padding-left: 4px;
+}
+
+/* Stack content under titles */
+.shms-footer-about,
+.shms-footer-quicklinks,
+.shms-footer-services,
+.shms-footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Slightly smaller gap for tighter alignment */
+}
+
+/* Social icons */
+.shms-footer-socials ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduce gap to align better with text */
+}
+
+/* Ensure Socials heading aligns with other columns */
+.shms-footer-socials h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== Legal Links ===== */
+.shms-footer-legal {
+    background-color: #ff9900;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.shms-footer-legal nav {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.shms-footer-legal a {
+    color: #002233;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.shms-footer-legal a:hover {
+    color: maroon;
+}
+
+/* ===== Copyright ===== */
+.shms-footer-copy {
+    background-color: #001722;
+    padding: 12px 0;
+}
+
+.shms-footer-copy p {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    color: #d9e6f2;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .shms-footer-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        gap: 30px;
+        align-items: start; /* keep headings aligned */
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* slightly smaller headings for smaller screens */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px; /* smaller text */
+    }
+
+    .shms-footer-legal nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .shms-footer-columns {
+        grid-template-columns: 1fr; /* stack all columns vertically */
+        gap: 20px;
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* keep headings readable */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px;
+    }
+
+    .shms-footer-legal nav {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    /* Optional: center-align content for single-column layout */
+    .shms-footer-about,
+    .shms-footer-quicklinks,
+    .shms-footer-services,
+    .shms-footer-socials {
+        align-items: center;
+        text-align: center;
+    }
+
+    .shms-footer-socials ul li {
+        justify-content: center; /* center icons with text */
+    }
+}
