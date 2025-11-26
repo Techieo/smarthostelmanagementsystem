@@ -198,7 +198,6 @@
             <a href="about.php">About</a>
         </nav>
     </div>
-        <p>This is a boy</p>
 
     <!-- Copyright -->
     <div class="shms-footer-copy">
