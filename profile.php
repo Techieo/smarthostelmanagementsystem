@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
     <link rel="stylesheet" href="CASCADINGSTYLES/test.css">
     <link rel="icon" href="Img/favicon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Test | Smart Hostel Management System</title>
+    <title>Profile | Smart Hostel Management System</title>
 </head>
 <body>
     
