@@ -25,8 +25,12 @@
       <li><a href="view_room_status_student.php">View room status</a></li>
       <li><a href="submit_complaint_student.php">Submit Complaint</a></li>
       <li><a href="payment_status_student.php">Payment Status</a></li>
+      
+      <!-- Updated Dropdown -->
       <li class="dropdown">
-        <a href="#">More <i class="fa-solid fa-caret-down"></i></a>
+        <button type="button" class="dropdown-toggle">
+          More <i class="fa-solid fa-caret-down"></i>
+        </button>
         <div class="dropdown-content">
           <a href="help_FAQs.php" style="background-color:#fff;color:black;">FAQ</a>
           <a href="rules_regulations.php" style="background-color:#fff;color:black;">Rules & Regulations</a>
@@ -60,6 +64,7 @@
     <li><a href="logout.php">Log out</a></li>
   </ul>
 </div>
+
 
 <main>
         <h1>Hostel Frequently Asked Questions (FAQ)</h1>
