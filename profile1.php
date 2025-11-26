@@ -113,20 +113,130 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
 
 
 
+<?php
+session_start();
+include("db_connect.php");
+
+// Redirect to login page if NOT logged in
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$userId = $_SESSION['student_id']; // get logged-in student's ID
+
+// Fetch student info
+$stmt = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$student = $stmt->get_result()->fetch_assoc();
+if (!$student) {
+    $student = []; // ensure it's an array
+}
+
+// Initialize messages
+$personalSuccess = '';
+$academicSuccess = '';
+$contactSuccess = '';
+$emergencySuccess = '';
+$passwordMessage = '';
+
+// ---------- Personal Details ----------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_update_personal'])) {
+    $programme = $_POST['programme'] ?? '';
+    $nat_id = $_POST['nat_id'] ?? '';
+    $dob = $_POST['date_of_birth'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $nationality = $_POST['nationality'] ?? '';
+    $medical_info = $_POST['medical_info'] ?? '';
+
+    $stmtUpdate = $conn->prepare("UPDATE students SET programme=?, nat_id=?, date_of_birth=?, gender=?, nationality=?, medical_info=? WHERE student_id=?");
+    $stmtUpdate->bind_param("ssssssi", $programme, $nat_id, $dob, $gender, $nationality, $medical_info, $userId);
+    $stmtUpdate->execute();
+
+    $personalSuccess = "Personal Details updated successfully!";
+    $student = $conn->query("SELECT * FROM students WHERE student_id = $userId")->fetch_assoc();
+}
+
+// ---------- Academic Details ----------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_update_academic'])) {
+    $kcse_year = $_POST['kcse_year'] ?? '';
+    $kcse_index = $_POST['kcse_index'] ?? '';
+
+    $stmtUpdate = $conn->prepare("UPDATE students SET kcse_year=?, kcse_index=? WHERE student_id=?");
+    $stmtUpdate->bind_param("isi", $kcse_year, $kcse_index, $userId);
+    $stmtUpdate->execute();
+
+    $academicSuccess = "Academic Details updated successfully!";
+    $student = $conn->query("SELECT * FROM students WHERE student_id = $userId")->fetch_assoc();
+}
+
+// ---------- Contact Details ----------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_update_contact'])) {
+    $personal_phone = $_POST['personal_phone'] ?? '';
+    $home_address = $_POST['home_address'] ?? '';
+
+    $stmtUpdate = $conn->prepare("UPDATE students SET personal_phone=?, home_address=? WHERE student_id=?");
+    $stmtUpdate->bind_param("ssi", $personal_phone, $home_address, $userId);
+    $stmtUpdate->execute();
+
+    $contactSuccess = "Contact Details updated successfully!";
+    $student = $conn->query("SELECT * FROM students WHERE student_id = $userId")->fetch_assoc();
+}
+
+// ---------- Emergency Contact ----------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_update_emergency'])) {
+    $ec_name = $_POST['ec_name'] ?? '';
+    $ec_relationship = $_POST['ec_relationship'] ?? '';
+    $ec_phone = $_POST['ec_phone'] ?? '';
+
+    $stmtUpdate = $conn->prepare("UPDATE students SET ec_name=?, ec_relationship=?, ec_phone=? WHERE student_id=?");
+    $stmtUpdate->bind_param("sssi", $ec_name, $ec_relationship, $ec_phone, $userId);
+    $stmtUpdate->execute();
+
+    $emergencySuccess = "Emergency Contact updated successfully!";
+    $student = $conn->query("SELECT * FROM students WHERE student_id = $userId")->fetch_assoc();
+}
+
+// ---------- Change Password ----------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_password'])) {
+    $current_password = $_POST['current_password'] ?? '';
+    $new_password = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    $stmtPwd = $conn->prepare("SELECT password FROM students WHERE student_id=?");
+    $stmtPwd->bind_param("i", $userId);
+    $stmtPwd->execute();
+    $userPwd = $stmtPwd->get_result()->fetch_assoc();
+
+    if (!$userPwd || !password_verify($current_password, $userPwd['password'])) {
+        $passwordMessage = "Current password is incorrect!";
+    } elseif ($new_password !== $confirm_password) {
+        $passwordMessage = "New passwords do not match!";
+    } else {
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmtUpdatePwd = $conn->prepare("UPDATE students SET password=? WHERE student_id=?");
+        $stmtUpdatePwd->bind_param("si", $hashed_password, $userId);
+        $stmtUpdatePwd->execute();
+        $passwordMessage = "Password changed successfully!";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CASCADINGSTYLES/profile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="JAVASCRIPT_SHMS/profile_student.js" defer></script>
+    <link rel="stylesheet" href="CASCADINGSTYLES/test.css">
     <link rel="icon" href="Img/favicon.jpg">
-    <title>Profile Settings | Smart Hostel Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Profile | Smart Hostel Management System</title>
 </head>
 <body>
-
-    <header>
+    
+<header>
   <nav>
     <div class="logo">
       <img src="Img/favicon.jpg" alt="SHMS Logo">
@@ -142,10 +252,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_change_passwor
       <li class="dropdown">
         <a href="#">More <i class="fa-solid fa-caret-down"></i></a>
         <div class="dropdown-content">
-          <a href="help_FAQs.php" style="background-color:#fff;color:black;">FAQ</a>
-          <a href="rules_regulations.php" style="background-color:#fff;color:black;">Rules & Regulations</a>
-          <a href="profile.php" style="background-color:#fff;color:black;">Profile</a>
-          <a href="logout.php" style="background-color:#fff;color:black;">Log out</a>
+          <a href="help_FAQs.php">FAQ</a>
+          <a href="rules_regulations.php">Rules & Regulations</a>
+          <a href="profile.php">Profile</a>
+          <a href="logout.php">Log out</a>
         </div>
       </li>
     </ul>
