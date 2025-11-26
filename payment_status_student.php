@@ -175,3 +175,60 @@ $conn->close();
     </section>
 </section>
 </main>
+<footer class="shms-footer">
+    <!-- Container for the four main columns -->
+    <div class="shms-footer-columns">
+        <!-- Column 1: About -->
+        <div class="shms-footer-about">
+            <h3>About SHMS</h3>
+            <p>SHMS modernizes university hostel operations by providing students with seamless online booking, payment, and communication services, aiming to create a more efficient living and learning environment.</p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <nav class="shms-footer-quicklinks" aria-label="Quick Navigation Links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="dashboard_student.php">Dashboard</a></li>
+                <li><a href="book_room.php">Rooms</a></li>
+                <li><a href="rules_regulations.php">Rules & Regulations</a></li>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="submit_complaint_student.php">Submit Complaint</a></li>
+            </ul>
+        </nav>
+
+        <!-- Column 3: Popular Services -->
+        <div class="shms-footer-services">
+            <h3>Popular Services</h3>
+            <ul>
+                <li>Wifi</li>
+                <li>Laundry</li>
+                <li>Meals/Cafeteria</li>
+                <li>Housekeeping</li>
+            </ul>
+        </div>
+
+        <!-- Column 4: Socials -->
+        <nav class="shms-footer-socials" aria-label="SHMS Social Media">
+            <h3>Socials</h3>
+            <ul>
+                <li><a href="https://www.facebook.com/profile.php?id=61583166006604" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                <li><a href="https://www.instagram.com/smarthostelmanagementsystem/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                <li><a href="https://www.tiktok.com/@smart.hostel.mana?_r=1&_t=ZM-91btgFDD16u" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Legal Links -->
+    <div class="shms-footer-legal">
+        <nav>
+            <a href="privacy.php">Privacy Policy</a>
+            <a href="terms.php">Terms & Conditions</a>
+            <a href="about.php">About</a>
+        </nav>
+    </div>
+
+    <!-- Copyright -->
+    <div class="shms-footer-copy">
+        <p>© 2025 Smart Hostel Management System. All rights reserved.</p>
+    </div>
+</footer>

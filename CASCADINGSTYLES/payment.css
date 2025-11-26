@@ -389,3 +389,191 @@ p {
     .action-buttons {flex-direction: column;}
     .btn-primary, .btn-secondary {width: 100%; text-align: center;}
 }
+/* FOOTER */
+/* FOOTER */
+/* THE FOOTER */
+.shms-footer {
+    background-color: #002233;
+    color: #ffffff;
+    width: 100%;
+    padding: 60px 0 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ===== 4-Column Grid ===== */
+.shms-footer-columns {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr; /* Adjusted column widths for balance */
+    gap: 40px; /* Reduce gap to bring columns closer */
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* Ensures all columns start at the same top */
+}
+
+/* Column Titles */
+.shms-footer-columns h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin-top: 0;       /* Ensure all headings start at same top */
+    margin-bottom: 15px; /* Consistent spacing under headings */
+    border-left: 4px solid #ff9900;
+    padding-left: 10px;
+}
+
+/* Column Content */
+.shms-footer-columns p,
+.shms-footer-columns a,
+.shms-footer-columns li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #d9e6f2;
+}
+
+.shms-footer-columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shms-footer-columns a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.shms-footer-columns a:hover {
+    color: #ff9900;
+    padding-left: 4px;
+}
+
+/* Stack content under titles */
+.shms-footer-about,
+.shms-footer-quicklinks,
+.shms-footer-services,
+.shms-footer-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Slightly smaller gap for tighter alignment */
+}
+
+/* Social icons */
+.shms-footer-socials ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Reduce gap to align better with text */
+}
+
+/* Ensure Socials heading aligns with other columns */
+.shms-footer-socials h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== Legal Links ===== */
+.shms-footer-legal {
+    background-color: #ff9900;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.shms-footer-legal nav {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.shms-footer-legal a {
+    color: #002233;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.shms-footer-legal a:hover {
+    color: maroon;
+}
+
+/* ===== Copyright ===== */
+.shms-footer-copy {
+    background-color: #001722;
+    padding: 12px 0;
+}
+
+.shms-footer-copy p {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    color: #d9e6f2;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .shms-footer-columns {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+        gap: 30px;
+        align-items: start; /* keep headings aligned */
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* slightly smaller headings for smaller screens */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px; /* smaller text */
+    }
+
+    .shms-footer-legal nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .shms-footer-columns {
+        grid-template-columns: 1fr; /* stack all columns vertically */
+        gap: 20px;
+    }
+
+    .shms-footer-columns h3 {
+        font-size: 16px; /* keep headings readable */
+    }
+
+    .shms-footer-columns p,
+    .shms-footer-columns a,
+    .shms-footer-columns li {
+        font-size: 14px;
+    }
+
+    .shms-footer-legal nav {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .shms-footer-copy p {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    /* Optional: center-align content for single-column layout */
+    .shms-footer-about,
+    .shms-footer-quicklinks,
+    .shms-footer-services,
+    .shms-footer-socials {
+        align-items: center;
+        text-align: center;
+    }
+
+    .shms-footer-socials ul li {
+        justify-content: center; /* center icons with text */
+    }
+}
