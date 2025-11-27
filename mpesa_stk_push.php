@@ -6,6 +6,33 @@ session_start();
 include 'db_connect.php';
 include 'mpesa_config.php'; // your Consumer Key, Secret, Shortcode, Passkey
 
+// ✅ Add missing functions for access token and STK password
+
+function getAccessToken($consumerKey, $consumerSecret) {
+    $url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($curl);
+    if (curl_errno($curl)) {
+        die('cURL error: ' . curl_error($curl));
+    }
+    curl_close($curl);
+
+    $data = json_decode($response, true);
+    return $data['access_token'] ?? die('Failed to get access token');
+}
+
+function mpesaPassword($shortcode, $passkey) {
+    $timestamp = date('YmdHis');
+    $password = base64_encode($shortcode . $passkey . $timestamp);
+    return [$password, $timestamp];
+}
+
 // ✅ Get checkout_request_id from URL
 if (!isset($_GET['checkout_request_id'])) {
     die("No pending booking found.");
@@ -25,8 +52,14 @@ if ($result->num_rows == 0) {
 $booking = $result->fetch_assoc();
 
 // Extract details
-$phone   = $booking['payment_phone'];
+$phone_raw = $booking['payment_phone'];
 $amount  = $booking['amount'];
+
+// ✅ Normalize phone number to 254XXXXXXXXX format
+$phone = preg_replace('/\D/', '', $phone_raw); // remove non-digits
+if (strlen($phone) === 10 && substr($phone, 0, 1) === '0') {
+    $phone = '254' . substr($phone, 1);
+}
 
 // ✅ Generate M-Pesa access token
 $token = getAccessToken($consumerKey, $consumerSecret);
@@ -47,7 +80,7 @@ $payload = [
     "PartyA" => $phone,
     "PartyB" => $shortcode,
     "PhoneNumber" => $phone,
-    "CallBackURL" => "https://yourdomain.com/mpesa_callback.php", // Replace with your live callback URL
+    "CallBackURL" => $callbackURL, // Should be your live callback
     "AccountReference" => "SmartHostel",
     "TransactionDesc" => "Room Payment"
 ];
