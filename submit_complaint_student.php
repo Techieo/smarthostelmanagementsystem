@@ -11,7 +11,7 @@ $room_no = '';
 $status_msg = '';
 
 if ($student_id) {
-    // Fetch student info
+    // Fetch student info (name, email, phone)
     $stmt = $conn->prepare("
         SELECT first_name, last_name, personal_email, personal_phone 
         FROM students 
@@ -93,26 +93,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $attachments_json = json_encode($uploaded_files);
 
-        // Insert complaint using student_id
+        // Insert complaint
         $stmt_insert = $conn->prepare("
             INSERT INTO complaints 
-            (student_id, full_name, email, phone, room_no, category, priority, incident_date, title, description, attachments, is_anonymous) 
+            (full_name, reg_no, email, phone, room_no, category, priority, incident_date, title, description, attachments, is_anonymous) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $full_name_safe = htmlspecialchars($first_name . ' ' . $last_name);
         $email_safe = htmlspecialchars($email);
-        $phone_safe = htmlspecialchars($phone);
+        $phone_safe = htmlspecialchars($phone); // Always use phone from students table
         $room_safe = htmlspecialchars($room_no);
         $title_safe = htmlspecialchars($title);
         $description_safe = htmlspecialchars($description);
         $category_safe = htmlspecialchars($category);
         $priority_safe = htmlspecialchars($priority);
 
+        $reg_no = ''; // optional
+
         $stmt_insert->bind_param(
-            "issssssssssi",
-            $student_id,
+            "sssssssssssi",
             $full_name_safe,
+            $reg_no,
             $email_safe,
             $phone_safe,
             $room_safe,
@@ -215,19 +217,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Main Content Area -->
     <main>
-  <section id="complaint-submission" class="card">
-    <h2>Submit a Complaint / Maintenance Request</h2>
-    <p>Please fill in the form below to report issues related to your accommodation.</p>
+        <section id="complaint-submission">
+            <h2>Submit a Complaint / Maintenance Request</h2>
+            <p>Please use this form to report any issues related to accommodation, maintenance, or general conduct within the hostel.</p>
+            
+            <!-- Note on Attachments -->
+            <p aria-live="polite"><strong>Attachment Note:</strong> Accepted file types are JPG, JPEG, PNG, GIF, and PDF. Maximum file size per attachment is 5MB.</p>
 
-    <form id="complaint-form" action="" method="POST" enctype="multipart/form-data">
-      
-      <!-- Honeypot for spam -->
-      <input type="text" name="website" style="display:none;" autocomplete="off">
+            <!-- Complaint Submission Form -->
+            <form id="complaint-form" action="" method="POST" enctype="multipart/form-data">
 
-      <!-- Personal Details -->
-      <fieldset>
+    <!-- Honeypot for spam -->
+    <input type="text" name="website" style="display:none;" autocomplete="off">
+
+    <!-- Personal Details -->
+    <fieldset>
         <legend>Your Details</legend>
-
+        
         <label for="full_name">Full Name:</label>
         <input type="text" id="full_name" name="full_name" 
                value="<?php echo htmlspecialchars($first_name . ' ' . $last_name); ?>" 
@@ -247,35 +253,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" id="room_no" name="room_no" 
                value="<?php echo htmlspecialchars($room_no); ?>" 
                readonly>
-      </fieldset>
+    </fieldset>
 
-      <button type="submit" name="update_phone" class="btn-primary">Update Phone</button>
+    <!-- Update Phone Button -->
+    <button type="submit" name="update_phone" 
+            style="margin-top:10px; padding:10px 20px; border-radius:8px; background:#1e90ff; color:#fff; border:none; cursor:pointer;">
+        Update Phone
+    </button>
 
-      <!-- Complaint Details -->
-      <fieldset>
+    <!-- Complaint Details -->
+    <fieldset>
         <legend>Complaint Details</legend>
-
+        
         <label for="category">Category:</label>
         <select id="category" name="category" required>
-          <option value="">-- Select --</option>
-          <option value="accommodation">Accommodation</option>
-          <option value="payments">Payments</option>
-          <option value="maintenance">Maintenance</option>
-          <option value="security">Security</option>
-          <option value="conduct">Student Conduct</option>
-          <option value="other">Other</option>
+            <option value="">-- Select --</option>
+            <option value="accommodation">Accommodation</option>
+            <option value="payments">Payments</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="security">Security</option>
+            <option value="conduct">Student Conduct</option>
+            <option value="other">Other</option>
         </select>
 
         <label>Priority:</label>
-        <div class="priority-options">
-          <input type="radio" id="priority-low" name="priority" value="low" required>
-          <label for="priority-low">Low</label>
+        <div style="margin-bottom:10px;">
+            <input type="radio" id="priority-low" name="priority" value="low" required>
+            <label for="priority-low">Low</label>
 
-          <input type="radio" id="priority-medium" name="priority" value="medium">
-          <label for="priority-medium">Medium</label>
+            <input type="radio" id="priority-medium" name="priority" value="medium">
+            <label for="priority-medium">Medium</label>
 
-          <input type="radio" id="priority-high" name="priority" value="high">
-          <label for="priority-high">High</label>
+            <input type="radio" id="priority-high" name="priority" value="high">
+            <label for="priority-high">High</label>
         </div>
 
         <label for="incident_date">Date of Incident:</label>
@@ -287,23 +297,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="description">Description:</label>
         <textarea id="description" name="description" required minlength="20" rows="6" placeholder="Describe the issue in detail..."></textarea>
 
-        <label for="attachments">Attachments:</label>
+        <label for="attachments">Attachments (JPG, PNG, GIF, PDF | Max 5MB each):</label>
         <input type="file" id="attachments" name="attachments[]" multiple accept=".jpg,.jpeg,.png,.gif,.pdf">
 
         <label>
-          <input type="checkbox" name="anonymous"> Submit Anonymously
+            <input type="checkbox" name="anonymous" value="1"> Submit Anonymously
         </label>
-      </fieldset>
+    </fieldset>
 
-      <button type="submit" name="submit_complaint" class="btn-primary">Submit Complaint</button>
-    </form>
+    <!-- Submit Complaint Button -->
+    <button type="submit" name="submit_complaint" 
+            style="margin-top:10px; padding:10px 20px; border-radius:8px; background:#1e90ff; color:#fff; border:none; cursor:pointer;">
+        Submit Complaint
+    </button>
+</form>
 
-    <?php if(!empty($status_msg)) : ?>
-      <div class="status-message"><?php echo htmlspecialchars($status_msg); ?></div>
-    <?php endif; ?>
-  </section>
-</main>
+<!-- Status Message -->
+<?php if(!empty($status_msg)) : ?>
+<div style="margin-top:10px; padding:10px; background:#d4edda; color:#155724; border-radius:5px;">
+    <?php echo htmlspecialchars($status_msg); ?>
+</div>
+<?php endif; ?>
 
+</section>
+
+</main> 
 <footer class="shms-footer">
     <!-- Container for the four main columns -->
     <div class="shms-footer-columns">
