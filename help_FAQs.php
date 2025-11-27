@@ -60,6 +60,39 @@
     <li><a href="logout.php">Log out</a></li>
   </ul>
 </div>
+<style>
+    .whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+    background-color: #25D366; /* WhatsApp green */
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    font-size: 28px;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background-color: #128C7E; /* darker green on hover */
+}
+
+</style>
+
+    <br>
+    <!-- WhatsApp Floating Button using Font Awesome -->
+    <!-- WhatsApp Floating Button using Font Awesome -->
+    <a href="https://wa.me/254737074160" target="_blank" class="whatsapp-float" title="Chat with us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
 
 <main>
