@@ -126,7 +126,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="CASCADINGSTYLES/dayforbooking.css"/>
     <script src="JAVASCRIPT_SHMS/daysforbooking.js" defer></script>  
 </head>
-<body>
+<style>
+  /* ===== PAGE-SPECIFIC ZOOM FIX ===== */
+body.page-zoom-fix {
+    transform: none !important;  /* remove any scaling */
+    zoom: 1 !important;          /* remove zoom if applied */
+    font-size: 16px !important;  /* reset font size */
+}
+body.page-zoom-fix * {
+    transform: none !important;  /* ensure no child elements are scaled */
+    zoom: 1 !important;
+}
+
+/* ===== GLOBAL ===== */
+body.page-zoom-fix * {
+    box-sizing: border-box;
+}
+body.page-zoom-fix {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f0f4ff;
+    color: #02203c;
+}
+
+/* ===== HEADER & NAVBAR ===== */
+body.page-zoom-fix header {
+    width: 100%;
+    background-color: #003366;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* rest of your CSS goes here, just prefix with body.page-zoom-fix */
+
+</style>
+<body class="page-zoom-fix">
 <header>
   <nav>
     <div class="logo"><img src="Img/favicon.jpg" alt="SHMS Logo"></div>
