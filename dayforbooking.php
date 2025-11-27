@@ -11,7 +11,9 @@ if (!isset($_SESSION['student_id'])) {
 $student_id = $_SESSION['student_id'];
 
 // Fetch student info
-$student_sql = "SELECT first_name, last_name FROM students WHERE student_id = $student_id LIMIT 1";
+$student_sql = "SELECT first_name, last_name, personal_email, personal_phone 
+                FROM students 
+                WHERE student_id = $student_id LIMIT 1";
 $student_result = $conn->query($student_sql);
 
 if (!$student_result || $student_result->num_rows == 0) {
@@ -28,10 +30,11 @@ if (!isset($_GET['room_id'])) {
     exit();
 }
 
-$room_id = $_GET['room_id'];
+$room_id    = $_GET['room_id'];
+$room_image = $_GET['room_image'] ?? "images/rooms/default.jpg";
 
 // Fetch room details
-$sql = "SELECT * FROM rooms WHERE room_id = '$room_id' LIMIT 1";
+$sql    = "SELECT * FROM rooms WHERE room_id = '$room_id' LIMIT 1";
 $result = $conn->query($sql);
 
 if (!$result || $result->num_rows == 0) {
@@ -41,31 +44,34 @@ if (!$result || $result->num_rows == 0) {
 
 $room = $result->fetch_assoc();
 
-// Fetch latest booking schedule (if exists)
+// Fetch booking due dates
 $due_result = $conn->query("SELECT * FROM booking_due_dates ORDER BY id DESC LIMIT 1");
 $due_info   = $due_result ? $due_result->fetch_assoc() : null;
 
 $errors = [];
+$success = "";
 
-// Handle booking submission
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $booking_date = $_POST['booking_date'] ?? '';
 
-    // Optional: Validate date within allowed booking period
-    if ($due_info && ($booking_date < $due_info['open_date'] || $booking_date > $due_info['close_date'])) {
-        $errors['booking_date'] = "Selected date is outside the allowed booking period.";
+    if (empty($booking_date)) {
+        $errors['booking_date'] = "Please select a booking date.";
     }
 
     if (empty($errors)) {
-        // Update room status to booked
-        $conn->query("UPDATE rooms SET status='Booked', booked_by=$student_id WHERE room_id='$room_id'");
+        // Update room status to Booked
+        $stmt = $conn->prepare("UPDATE rooms SET status='Booked', booked_by=? WHERE room_id=?");
+        $stmt->bind_param("ii", $student_id, $room_id);
+        $stmt->execute();
 
-        // Record booking
-        $conn->query("INSERT INTO bookings (student_id, room_id, booking_date, created_at) VALUES ($student_id, $room_id, '$booking_date', NOW())");
+        // Insert booking record
+        $stmt2 = $conn->prepare("INSERT INTO bookings (student_id, room_id, booking_date, created_at) VALUES (?, ?, ?, NOW())");
+        $stmt2->bind_param("iis", $student_id, $room_id, $booking_date);
+        $stmt2->execute();
 
-        $_SESSION['success_message'] = "Room {$room['room_number']} has been booked successfully!";
-        header("Location: book_room.php");
-        exit();
+        $success = "Room {$room['room_number']} has been booked successfully!";
     }
 }
 ?>
@@ -126,34 +132,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="booking-container">
   <div class="left">
     <img src="<?php echo $room_image; ?>" alt="Room Image">
-    <h2>Room <?php echo $room['room_number']; ?> Booking</h2>
-<p>Type: <?php echo $room['room_type']; ?></p>
-<p>Capacity: <?php echo $room['capacity']; ?> people</p>
-<p>Price: KSh <?php echo number_format($room['price']); ?> / month</p>
+    <h2>Room <?php echo $room['room_number']; ?></h2>
+    <p><strong>Type:</strong> <?php echo $room['room_type']; ?></p>
+    <p><strong>Capacity:</strong> <?php echo $room['capacity']; ?> People</p>
+    <p><strong>Price:</strong> KSh <?php echo number_format($room['price']); ?> / month</p>
+  </div>
 
-<form method="POST">
-    <?php if($due_info): ?>
+  <div class="right">
+    <h3>Student Information</h3>
+
+    <?php if (!empty($success)) echo "<div class='success-message'>{$success}</div>"; ?>
+    <?php if (!empty($errors['booking_date'])) echo "<div class='error-message'>{$errors['booking_date']}</div>"; ?>
+
+    <form method="POST">
+        <input type="text" name="fullname" placeholder="Full Name" value="<?php echo htmlspecialchars($fullname); ?>" readonly>
+
+        <?php if($due_info): ?>
         <h3>Booking Schedule</h3>
         <div class="booking-due">
             <strong>Booking Opened:</strong> <?php echo date('F d, Y', strtotime($due_info['open_date'])) . ' at ' . date('h:i A', strtotime($due_info['open_time'])); ?><br>
             <strong>Booking Closes:</strong> <?php echo date('F d, Y', strtotime($due_info['close_date'])) . ' at ' . date('h:i A', strtotime($due_info['close_time'])); ?>
         </div>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <br>
-    <label for="booking_date">Booking Date:</label>
-    <input type="date" name="booking_date" 
-           value="<?php echo htmlspecialchars($_POST['booking_date'] ?? ''); ?>" 
-           <?php if($due_info): ?>
-             min="<?php echo $due_info['open_date']; ?>" 
-             max="<?php echo $due_info['close_date']; ?>"
-           <?php endif; ?>
-           required>
-    <?php if (!empty($errors['booking_date'])) echo "<div class='error-message'>{$errors['booking_date']}</div>"; ?>
+        <br>
+        <label for="booking_date">Booking Date:</label>
+        <input type="date" name="booking_date" 
+               value="<?php echo htmlspecialchars($_POST['booking_date'] ?? ''); ?>" 
+               <?php if($due_info): ?>
+                 min="<?php echo $due_info['open_date']; ?>" 
+                 max="<?php echo $due_info['close_date']; ?>"
+               <?php endif; ?>
+               required>
 
-    <br><br>
-    <button type="submit">Book Now</button>
-</form>
+        <button type="submit">Book Now</button>
+    </form>
+  </div>
+</div>
 
 <footer class="shms-footer">
     <!-- Container for the four main columns -->
