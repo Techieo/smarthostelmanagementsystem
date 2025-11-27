@@ -173,6 +173,22 @@ $conn->close();
             <button class="btn-secondary">Download Payment Receipt</button>
         </div>
     </section>
+    <section class="fees-structure">
+  <h2>Choose Your Room Type & Download Rent Details</h2>
+
+  <form method="POST" action="download_fees.php">
+    <label for="room_type">Select Room Type:</label>
+    <select name="room_type" id="room_type" required>
+      <option value="">--Select Room--</option>
+      <option value="hex">Hex Room</option>
+      <option value="twin">Twin Room</option>
+      <option value="quad">Quad Room</option>
+    </select>
+
+    <button type="submit">Download Rent Details</button>
+  </form>
+</section>
+
 </section>
 </main>
 <footer class="shms-footer">
