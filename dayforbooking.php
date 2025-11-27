@@ -11,9 +11,7 @@ if (!isset($_SESSION['student_id'])) {
 $student_id = $_SESSION['student_id'];
 
 // Fetch student info
-$student_sql = "SELECT first_name, last_name, personal_email, personal_phone 
-                FROM students 
-                WHERE student_id = $student_id LIMIT 1";
+$student_sql = "SELECT first_name, last_name FROM students WHERE student_id = $student_id LIMIT 1";
 $student_result = $conn->query($student_sql);
 
 if (!$student_result || $student_result->num_rows == 0) {
@@ -23,8 +21,6 @@ if (!$student_result || $student_result->num_rows == 0) {
 
 $student = $student_result->fetch_assoc();
 $fullname = $student['first_name'] . ' ' . $student['last_name'];
-$email    = $student['personal_email'];
-$phone    = $student['personal_phone'];
 
 // Ensure room_id is provided
 if (!isset($_GET['room_id'])) {
@@ -32,11 +28,10 @@ if (!isset($_GET['room_id'])) {
     exit();
 }
 
-$room_id    = $_GET['room_id'];
-$room_image = $_GET['room_image'] ?? "images/rooms/default.jpg";
+$room_id = $_GET['room_id'];
 
 // Fetch room details
-$sql    = "SELECT * FROM rooms WHERE room_id = '$room_id' LIMIT 1";
+$sql = "SELECT * FROM rooms WHERE room_id = '$room_id' LIMIT 1";
 $result = $conn->query($sql);
 
 if (!$result || $result->num_rows == 0) {
@@ -46,14 +41,33 @@ if (!$result || $result->num_rows == 0) {
 
 $room = $result->fetch_assoc();
 
-// Fetch the latest booking due dates
+// Fetch latest booking schedule (if exists)
 $due_result = $conn->query("SELECT * FROM booking_due_dates ORDER BY id DESC LIMIT 1");
 $due_info   = $due_result ? $due_result->fetch_assoc() : null;
 
-// Calculate cancellation date (2 days after booking open date)
-$cancel_before = $due_info ? date('F d, Y', strtotime($due_info['open_date'] . ' +2 days')) : 'N/A';
-
 $errors = [];
+
+// Handle booking submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $booking_date = $_POST['booking_date'] ?? '';
+
+    // Optional: Validate date within allowed booking period
+    if ($due_info && ($booking_date < $due_info['open_date'] || $booking_date > $due_info['close_date'])) {
+        $errors['booking_date'] = "Selected date is outside the allowed booking period.";
+    }
+
+    if (empty($errors)) {
+        // Update room status to booked
+        $conn->query("UPDATE rooms SET status='Booked', booked_by=$student_id WHERE room_id='$room_id'");
+
+        // Record booking
+        $conn->query("INSERT INTO bookings (student_id, room_id, booking_date, created_at) VALUES ($student_id, $room_id, '$booking_date', NOW())");
+
+        $_SESSION['success_message'] = "Room {$room['room_number']} has been booked successfully!";
+        header("Location: book_room.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -112,63 +126,34 @@ $errors = [];
 <div class="booking-container">
   <div class="left">
     <img src="<?php echo $room_image; ?>" alt="Room Image">
-    <h2>Room <?php echo $room['room_number']; ?></h2>
-    <p><strong>Type:</strong> <?php echo $room['room_type']; ?></p>
-    <p><strong>Capacity:</strong> <?php echo $room['capacity']; ?> People</p>
-    <p><strong>Price:</strong> KSh <?php echo number_format($room['price']); ?> / month</p>
-  </div>
+    <h2>Room <?php echo $room['room_number']; ?> Booking</h2>
+<p>Type: <?php echo $room['room_type']; ?></p>
+<p>Capacity: <?php echo $room['capacity']; ?> people</p>
+<p>Price: KSh <?php echo number_format($room['price']); ?> / month</p>
 
-  <div class="right">
-    <h3>Student Information</h3>
-    <form method="POST" action="bookroom_action.php">
-      <!-- Pass the room ID -->
-      <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
-
-      <input type="text" name="fullname" placeholder="Full Name" value="<?php echo htmlspecialchars($_POST['fullname'] ?? $fullname); ?>">
-      <?php if (!empty($errors['fullname'])) echo "<div class='error-message'>{$errors['fullname']}</div>"; ?>
-
-      <input type="email" name="email" placeholder="Email Address" value="<?php echo htmlspecialchars($email); ?>" readonly>
-
-      <select name="country">
-        <option value="">Select Country</option>
-        <option value="Kenya" <?php if(($_POST['country'] ?? '') == 'Kenya') echo 'selected'; ?>>Kenya</option>
-        <option value="Uganda" <?php if(($_POST['country'] ?? '') == 'Uganda') echo 'selected'; ?>>Uganda</option>
-        <option value="Tanzania" <?php if(($_POST['country'] ?? '') == 'Tanzania') echo 'selected'; ?>>Tanzania</option>
-      </select>
-      <?php if (!empty($errors['country'])) echo "<div class='error-message'>{$errors['country']}</div>"; ?>
-
-      <?php if($due_info): ?>
+<form method="POST">
+    <?php if($due_info): ?>
         <h3>Booking Schedule</h3>
         <div class="booking-due">
             <strong>Booking Opened:</strong> <?php echo date('F d, Y', strtotime($due_info['open_date'])) . ' at ' . date('h:i A', strtotime($due_info['open_time'])); ?><br>
             <strong>Booking Closes:</strong> <?php echo date('F d, Y', strtotime($due_info['close_date'])) . ' at ' . date('h:i A', strtotime($due_info['close_time'])); ?>
         </div>
-      <?php endif; ?>
+    <?php endif; ?>
 
-      <br>
-      <label for="booking_date">Booking Date:</label>
-      <input type="date" name="booking_date" 
-             value="<?php echo htmlspecialchars($_POST['booking_date'] ?? ''); ?>" 
-             <?php if($due_info): ?>
-               min="<?php echo $due_info['open_date']; ?>" 
-               max="<?php echo $due_info['close_date']; ?>"
-             <?php endif; ?>
-             required>
-      <?php if (!empty($errors['booking_date'])) echo "<div class='error-message'>{$errors['booking_date']}</div>"; ?>
+    <br>
+    <label for="booking_date">Booking Date:</label>
+    <input type="date" name="booking_date" 
+           value="<?php echo htmlspecialchars($_POST['booking_date'] ?? ''); ?>" 
+           <?php if($due_info): ?>
+             min="<?php echo $due_info['open_date']; ?>" 
+             max="<?php echo $due_info['close_date']; ?>"
+           <?php endif; ?>
+           required>
+    <?php if (!empty($errors['booking_date'])) echo "<div class='error-message'>{$errors['booking_date']}</div>"; ?>
 
-      <h3>Payment Information</h3>
-      <input type="text" name="payment_phone" placeholder="Enter your Safaricom number" value="<?php echo htmlspecialchars($_POST['payment_phone'] ?? ''); ?>" required>
-      <?php if (!empty($errors['payment_phone'])) echo "<div class='error-message'>{$errors['payment_phone']}</div>"; ?>
-
-      <div class="cancellation-policy">
-        <strong>Cancellation Policy:</strong>
-        <p>You may cancel for no charge before <strong><?php echo $cancel_before; ?></strong>. After this time, your prepayment is non-refundable.</p>
-      </div>
-
-      <button type="submit">Book Now</button>
-    </form>
-  </div>
-</div>
+    <br><br>
+    <button type="submit">Book Now</button>
+</form>
 
 <footer class="shms-footer">
     <!-- Container for the four main columns -->
