@@ -1,13 +1,11 @@
 <?php
-// Detect environment
-$host = $_SERVER['HTTP_HOST'];
+if ($_SERVER['SERVER_NAME'] == 'localhost') {
+    // Local XAMPP settings
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "smart_db";
 
-// If running on localhost (XAMPP)
-if ($host === 'localhost' || $host === '127.0.0.1') {
-    $hostname = "localhost";      // Local database host
-    $username = "root";           // Local DB username
-    $password = "";               // Local DB password (XAMPP default empty)
-    $database = "smart_db";       // Your local database name
 
 } else {
     // If running online (InfinityFree)
