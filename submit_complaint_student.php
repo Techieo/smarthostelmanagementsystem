@@ -283,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="room_no" value="<?php echo htmlspecialchars($room_no); ?>" readonly>
             </fieldset>
 
-            <button type="submit" name="update_phone" class="update-btn">Update Phone</button>
+            <button type="submit" name="update_phone" style="margin-top:10px; padding:10px 20px; border-radius:8px; background:#1e90ff; color:#fff; border:none; cursor:pointer;"> Update Phone </button>
 
             <!-- COMPLAINT DETAILS -->
             <fieldset>
@@ -329,9 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
             </fieldset>
 
-            <button type="submit" name="submit_complaint" class="submit-btn">
-                Submit Complaint
-            </button>
+            <button type="submit" name="submit_complaint" style="margin-top:10px; padding:10px 20px; border-radius:8px; background:#1e90ff; color:#fff; border:none; cursor:pointer;"> Submit Complaint </button>
         </form>
 
         <?php if(!empty($status_msg)): ?>
