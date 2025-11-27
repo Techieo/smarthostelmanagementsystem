@@ -62,57 +62,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone_post     = trim($_POST['phone'] ?? $phone);
     $country_post   = trim($_POST['country'] ?? '');
     $payment_phone  = trim($_POST['payment_phone'] ?? '');
-    $payment_method = trim($_POST['payment_method'] ?? '');
     $booking_date   = trim($_POST['booking_date'] ?? '');
+    $amount         = $room['price']; // Room price for payment
 
     // Validation
     if (empty($fullname_post)) $errors['fullname'] = "The full name field is required.";
     if (empty($phone_post)) $errors['phone'] = "The phone number field is required.";
     if (empty($country_post)) $errors['country'] = "The country field is required.";
     if (empty($payment_phone)) $errors['payment_phone'] = "The payment phone field is required.";
-    if (empty($payment_method)) $errors['payment_method'] = "Please select a payment method.";
     if (empty($booking_date)) $errors['booking_date'] = "Please select a booking date.";
 
-    // Validate phone format
     if (!empty($phone_post) && !preg_match("/^\+?[0-9]{6,15}$/", $phone_post))
         $errors['phone'] = "Invalid phone number format.";
     if (!empty($payment_phone) && !preg_match("/^\+?[0-9]{6,15}$/", $payment_phone))
         $errors['payment_phone'] = "Invalid phone number format.";
 
-    // Validate booking date within open/close
     if ($due_info && !empty($booking_date)) {
         if ($booking_date < $due_info['open_date'] || $booking_date > $due_info['close_date']) {
             $errors['booking_date'] = "Selected date is outside the allowed booking period.";
         }
     }
 
-    // Insert booking if no errors
     if (empty($errors)) {
+        // ✅ Insert into pending_bookings
+        $checkoutRequestID = uniqid(); // Unique identifier for STK push
 
-        $stmt = $conn->prepare("INSERT INTO bookings 
-            (student_id, room_id, fullname, phone, country, payment_phone, payment_method, booking_date, status)
+        $stmt = $conn->prepare("INSERT INTO pending_bookings 
+            (student_id, room_id, fullname, phone, country, payment_phone, booking_date, amount, checkout_request_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        $status = "pending";
         $stmt->bind_param(
-            "iisssssss",
+            "iissssdss",
             $student_id,
             $room_id,
             $fullname_post,
             $phone_post,
             $country_post,
             $payment_phone,
-            $payment_method,
             $booking_date,
-            $status
+            $amount,
+            $checkoutRequestID
         );
+        $stmt->execute();
 
-        if ($stmt->execute()) {
-            header("Location: booking_success.php?room_id=$room_id");
-            exit();
-        } else {
-            $errors['general'] = "Failed to book the room. Please try again.";
-        }
+        // Store checkout_request_id in session for callback matching
+        $_SESSION['checkout_request_id'] = $checkoutRequestID;
+
+        // Redirect to M-Pesa STK push handler
+        header("Location: mpesa_stk_push.php?checkout_request_id=$checkoutRequestID");
+        exit();
     }
 }
 ?>
