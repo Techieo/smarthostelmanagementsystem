@@ -80,7 +80,7 @@ nav .nav-links li.dropdown.active .dropdown-content {
 nav .nav-links li.dropdown .dropdown-content a {
   display: block;
   padding: 8px 15px;
-  color: #fff;
+  color: black;
 }
 
 nav .nav-links li.dropdown .dropdown-content a:hover {
