@@ -64,7 +64,7 @@ nav .nav-links li.dropdown .dropdown-content {
   position: absolute;
   top: 35px;
   left: 0;
-  background-color: #003366;
+  background-color: #fff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   border-radius: 6px;
   min-width: 180px;
