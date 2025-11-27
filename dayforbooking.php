@@ -288,5 +288,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>© 2025 Smart Hostel Management System. All rights reserved.</p>
     </div>
 </footer>
+</div>
 </body>
 </html>
