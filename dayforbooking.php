@@ -54,67 +54,6 @@ $due_info   = $due_result ? $due_result->fetch_assoc() : null;
 $cancel_before = $due_info ? date('F d, Y', strtotime($due_info['open_date'] . ' +2 days')) : 'N/A';
 
 $errors = [];
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $fullname_post  = trim($_POST['fullname'] ?? '');
-    $phone_post     = trim($_POST['phone'] ?? $phone);
-    $country_post   = trim($_POST['country'] ?? '');
-    $payment_phone  = trim($_POST['payment_phone'] ?? '');
-    $booking_date   = trim($_POST['booking_date'] ?? '');
-    $amount         = $room['price']; // Room price for payment
-
-    // Validation
-    if (empty($fullname_post)) $errors['fullname'] = "The full name field is required.";
-    if (empty($phone_post)) $errors['phone'] = "The phone number field is required.";
-    if (empty($country_post)) $errors['country'] = "The country field is required.";
-    if (empty($payment_phone)) $errors['payment_phone'] = "The payment phone field is required.";
-    if (empty($booking_date)) $errors['booking_date'] = "Please select a booking date.";
-
-    if (!empty($phone_post) && !preg_match("/^\+?[0-9]{6,15}$/", $phone_post))
-        $errors['phone'] = "Invalid phone number format.";
-    if (!empty($payment_phone) && !preg_match("/^\+?[0-9]{6,15}$/", $payment_phone))
-        $errors['payment_phone'] = "Invalid phone number format.";
-
-    if ($due_info && !empty($booking_date)) {
-        if ($booking_date < $due_info['open_date'] || $booking_date > $due_info['close_date']) {
-            $errors['booking_date'] = "Selected date is outside the allowed booking period.";
-        }
-    }
-
-    if (empty($errors)) {
-        // ✅ Insert into pending_bookings
-        $checkoutRequestID = uniqid(); // Unique identifier for STK push
-
-        $stmt = $conn->prepare("INSERT INTO pending_bookings 
-            (student_id, room_id, fullname, phone, country, payment_phone, booking_date, amount, checkout_request_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param(
-            "iissssdss",
-            $student_id,
-            $room_id,
-            $fullname_post,
-            $phone_post,
-            $country_post,
-            $payment_phone,
-            $booking_date,
-            $amount,
-            $checkoutRequestID
-        );
-        $stmt->execute();
-
-        // Store checkout_request_id in session for callback matching
-        $_SESSION['checkout_request_id'] = $checkoutRequestID;
-
-        // Redirect to M-Pesa STK push handler
-        $host_url = "https://hostelmanagementsystem.wuaze.com"; // your live site URL
-header("Location: $host_url/mpesa_stk_push.php?checkout_request_id=$checkoutRequestID");
-exit();
-
-        exit();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -181,8 +120,10 @@ exit();
 
   <div class="right">
     <h3>Student Information</h3>
-    <?php if (!empty($errors['general'])) echo "<div class='error-message'>{$errors['general']}</div>"; ?>
-    <form method="POST">
+    <form method="POST" action="bookroom_action.php">
+      <!-- Pass the room ID -->
+      <input type="hidden" name="room_id" value="<?php echo $room_id; ?>">
+
       <input type="text" name="fullname" placeholder="Full Name" value="<?php echo htmlspecialchars($_POST['fullname'] ?? $fullname); ?>">
       <?php if (!empty($errors['fullname'])) echo "<div class='error-message'>{$errors['fullname']}</div>"; ?>
 
@@ -219,9 +160,6 @@ exit();
       <input type="text" name="payment_phone" placeholder="Enter your Safaricom number" value="<?php echo htmlspecialchars($_POST['payment_phone'] ?? ''); ?>" required>
       <?php if (!empty($errors['payment_phone'])) echo "<div class='error-message'>{$errors['payment_phone']}</div>"; ?>
 
-      <input type="hidden" name="payment_method" value="M-Pesa">
-      <p>Payment Method: <strong>Safaricom M-Pesa</strong></p>
-
       <div class="cancellation-policy">
         <strong>Cancellation Policy:</strong>
         <p>You may cancel for no charge before <strong><?php echo $cancel_before; ?></strong>. After this time, your prepayment is non-refundable.</p>
@@ -231,6 +169,7 @@ exit();
     </form>
   </div>
 </div>
+
 <footer class="shms-footer">
     <!-- Container for the four main columns -->
     <div class="shms-footer-columns">
