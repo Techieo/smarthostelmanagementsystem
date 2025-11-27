@@ -41,6 +41,7 @@ while ($row = $result->fetch_assoc()) {
         <div class="dropdown-content">
           <a href="help_FAQs.php">FAQ</a>
           <a href="rules_regulations.php">Rules & Regulations</a>
+          <a href="profile1.php">ProfileONE</a>
           <a href="profile.php">Profile</a>
           <a href="logout.php">Log out</a>
         </div>
