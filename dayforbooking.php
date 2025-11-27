@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
 include 'db_connect.php';
 
@@ -57,7 +54,6 @@ $due_info   = $due_result ? $due_result->fetch_assoc() : null;
 $cancel_before = $due_info ? date('F d, Y', strtotime($due_info['open_date'] . ' +2 days')) : 'N/A';
 
 $errors = [];
-$success_message = "";
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -77,23 +73,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($payment_method)) $errors['payment_method'] = "Please select a payment method.";
     if (empty($booking_date)) $errors['booking_date'] = "Please select a booking date.";
 
+    // Validate phone format
     if (!empty($phone_post) && !preg_match("/^\+?[0-9]{6,15}$/", $phone_post))
         $errors['phone'] = "Invalid phone number format.";
     if (!empty($payment_phone) && !preg_match("/^\+?[0-9]{6,15}$/", $payment_phone))
         $errors['payment_phone'] = "Invalid phone number format.";
 
+    // Validate booking date within open/close
     if ($due_info && !empty($booking_date)) {
         if ($booking_date < $due_info['open_date'] || $booking_date > $due_info['close_date']) {
             $errors['booking_date'] = "Selected date is outside the allowed booking period.";
         }
     }
 
+    // Insert booking if no errors
     if (empty($errors)) {
 
-        // Insert booking into DB
         $stmt = $conn->prepare("INSERT INTO bookings 
             (student_id, room_id, fullname, phone, country, payment_phone, payment_method, booking_date, status)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
         $status = "pending";
         $stmt->bind_param(
             "iisssssss",
@@ -109,68 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         if ($stmt->execute()) {
-
-            // ===== STK PUSH START =====
-            require 'mpesa_config.php';
-
-            // Get Access Token
-            $credentials = base64_encode($consumerKey . ":" . $consumerSecret);
-            $token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $token_url);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($curl);
-            curl_close($curl);
-
-            $accessToken = json_decode($response)->access_token;
-
-            // Prepare STK Push
-            $timestamp = date('YmdHis');
-            $password = base64_encode($shortCode . $passkey . $timestamp);
-
-            $stkPushData = [
-                'BusinessShortCode' => $shortCode,
-                'Password' => $password,
-                'Timestamp' => $timestamp,
-                'TransactionType' => 'CustomerPayBillOnline',
-                'Amount' => $room['price'],         // room price
-                'PartyA' => $payment_phone,         // student's number
-                'PartyB' => $shortCode,
-                'PhoneNumber' => $payment_phone,
-                'CallBackURL' => $callbackURL,
-                'AccountReference' => 'Hostel' . $room_id,
-                'TransactionDesc' => 'Hostel Payment'
-            ];
-
-            $curl = curl_init('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest');
-            curl_setopt($curl, CURLOPT_HTTPHEADER, [
-                'Content-Type:application/json',
-                'Authorization:Bearer ' . $accessToken
-            ]);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($stkPushData));
-
-            $stkResponse = curl_exec($curl);
-            curl_close($curl);
-
-            // Log response for debugging
-            file_put_contents('stk_response_log.txt', print_r(json_decode($stkResponse, true), true), FILE_APPEND);
-            // ===== STK PUSH END =====
-
-            // Success message instead of redirect
-            $success_message = "Booking successful! Please complete payment on your phone via M-Pesa.";
-
+            header("Location: booking_success.php?room_id=$room_id");
+            exit();
         } else {
             $errors['general'] = "Failed to book the room. Please try again.";
         }
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -237,8 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="right">
     <h3>Student Information</h3>
     <?php if (!empty($errors['general'])) echo "<div class='error-message'>{$errors['general']}</div>"; ?>
-    <?php if (!empty($success_message)) echo "<div class='success-message'>{$success_message}</div>"; ?>
-
     <form method="POST">
       <input type="text" name="fullname" placeholder="Full Name" value="<?php echo htmlspecialchars($_POST['fullname'] ?? $fullname); ?>">
       <?php if (!empty($errors['fullname'])) echo "<div class='error-message'>{$errors['fullname']}</div>"; ?>
@@ -348,3 +291,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 </body>
 </html>
+
+
