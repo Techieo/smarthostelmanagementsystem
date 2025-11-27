@@ -1,24 +1,40 @@
 <?php
 session_start();
 include 'db_connect.php';
-include 'mpesa_config.php';
+include 'mpesa_config.php'; // your Consumer Key, Secret, Shortcode, Passkey
 
-if (!isset($_SESSION['pending_booking'])) {
+// ✅ Get checkout_request_id from URL
+if (!isset($_GET['checkout_request_id'])) {
+    die("No pending booking found.");
+}
+$checkoutRequestID = $_GET['checkout_request_id'];
+
+// ✅ Fetch pending booking from database
+$stmt = $conn->prepare("SELECT * FROM pending_bookings WHERE checkout_request_id = ?");
+$stmt->bind_param("s", $checkoutRequestID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
     die("No pending booking found.");
 }
 
-$booking = $_SESSION['pending_booking'];
+$booking = $result->fetch_assoc();
+
+// Extract details
 $phone   = $booking['payment_phone'];
 $amount  = $booking['amount'];
 
-// Generate access token
+// ✅ Generate M-Pesa access token
 $token = getAccessToken($consumerKey, $consumerSecret);
 
-// Generate password
+// ✅ Generate STK Push password
 list($password, $timestamp) = mpesaPassword($shortcode, $passkey);
 
-$url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+// ✅ STK Push URL
+$url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'; // Use live URL in production
 
+// ✅ Payload
 $payload = [
     "BusinessShortCode" => $shortcode,
     "Password" => $password,
@@ -28,11 +44,12 @@ $payload = [
     "PartyA" => $phone,
     "PartyB" => $shortcode,
     "PhoneNumber" => $phone,
-    "CallBackURL" => "https://yourdomain.com/mpesa_callback.php", // change to real URL
+    "CallBackURL" => "https://yourdomain.com/mpesa_callback.php", // Replace with your live callback URL
     "AccountReference" => "SmartHostel",
     "TransactionDesc" => "Room Payment"
 ];
 
+// ✅ Initialize cURL
 $curl = curl_init();
 curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_HTTPHEADER, [
@@ -43,42 +60,19 @@ curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
+// ✅ Execute STK Push
 $response = curl_exec($curl);
-$err = curl_error($curl);
+if (curl_errno($curl)) {
+    die('cURL error: ' . curl_error($curl));
+}
 curl_close($curl);
 
-if ($err) {
-    die("cURL Error: $err");
-}
+// ✅ Save STK response for debugging if you like
+file_put_contents('stk_response.json', $response);
 
-// Decode Safaricom response to get CheckoutRequestID
-$responseData = json_decode($response, true);
-if (isset($responseData['CheckoutRequestID'])) {
-    $checkoutRequestID = $responseData['CheckoutRequestID'];
-
-    // Insert into pending_bookings table
-    $stmt = $conn->prepare("INSERT INTO pending_bookings 
-        (student_id, room_id, fullname, phone, country, payment_phone, payment_method, booking_date, amount, checkout_request_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
-    $stmt->bind_param(
-        "iissssssds",
-        $booking['student_id'],
-        $booking['room_id'],
-        $booking['fullname'],
-        $booking['phone'],
-        $booking['country'],
-        $booking['payment_phone'],
-        $booking['payment_method'],
-        $booking['booking_date'],
-        $booking['amount'],
-        $checkoutRequestID
-    );
-    $stmt->execute();
-
-    // Optionally clear session
-    unset($_SESSION['pending_booking']);
-}
-
-echo $response;
+// ✅ Show response to user
+echo "<pre>";
+echo "STK Push Sent. Response from Safaricom:\n";
+print_r(json_decode($response, true));
+echo "</pre>";
 ?>
