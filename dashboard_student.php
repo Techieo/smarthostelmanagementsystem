@@ -113,7 +113,7 @@ $latest_notification = $conn->query("
 <main class="dashboard-main">
 
   <section class="welcome-box card">
-    <h2 style="font-size: 90px;">Welcome Back, <?php echo htmlspecialchars($lastName); ?> 👋</h2>
+    <h2 style="font-size: 30px;">Welcome Back, <?php echo htmlspecialchars($lastName); ?> 👋</h2>
     <p>Here is your personalized Smart Hostel dashboard overview.</p>
   </section>
 
