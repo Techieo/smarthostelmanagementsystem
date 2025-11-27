@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <li><a href="payment_status_student.php">Payment Status</a></li>
     <li><a href="help_FAQs.php">FAQs</a></li>
     <li><a href="rules_regulations.php">Rules & Regulations</a></li>
-    <li><a href="profile_student.php">Profile</a></li>
+    <li><a href="profile.php">Profile</a></li>
     <li><a href="logout.php">Log out</a></li>
   </ul>
 </div>
