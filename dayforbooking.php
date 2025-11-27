@@ -108,7 +108,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['checkout_request_id'] = $checkoutRequestID;
 
         // Redirect to M-Pesa STK push handler
-        header("Location: mpesa_stk_push.php?checkout_request_id=$checkoutRequestID");
+        $host_url = "https://hostelmanagementsystem.wuaze.com"; // your live site URL
+header("Location: $host_url/mpesa_stk_push.php?checkout_request_id=$checkoutRequestID");
+exit();
+
         exit();
     }
 }
