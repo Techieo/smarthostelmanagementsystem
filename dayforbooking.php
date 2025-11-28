@@ -67,8 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
 
         // Update room status to Booked
-        $stmt = $conn->prepare("UPDATE rooms SET status='Booked', booked_by=? WHERE room_id=?");
-        $stmt->bind_param("ii", $student_id, $room_id);
+        $stmt = $conn->prepare("UPDATE rooms SET status='Booked' WHERE room_id=?");
+$stmt->bind_param("i", $room_id);
+
         $stmt->execute();
 
         // Insert booking record
