@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,6 +152,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php if (!empty($success)) echo "<div class='success-message'>{$success}</div>"; ?>
     <?php if (!empty($errors['booking_date'])) echo "<div class='error-message'>{$errors['booking_date']}</div>"; ?>
+    <?php if (!empty($success)): ?>
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="success-popup">
+            <?php echo $success; ?>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('popupOverlay').style.display = 'none';
+            window.location.href = 'book_room.php'; // redirect after 3 seconds
+        }, 3000);
+    </script>
+<?php endif; ?>
 
     <form method="POST">
         <input type="text" name="fullname" placeholder="Full Name" value="<?php echo htmlspecialchars($fullname); ?>" readonly>
@@ -236,6 +250,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </footer>
 </div>
+<style>
+  /* Overlay to blur background */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Centered success popup */
+.success-popup {
+    background-color: #4BB543; /* green */
+    color: white;
+    padding: 25px 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    font-size: 18px;
+    text-align: center;
+    animation: popupFade 3s forwards;
+}
+
+/* Fade in and out animation */
+@keyframes popupFade {
+    0% { opacity: 0; transform: scale(0.8); }
+    10% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+
+</style>
 </body>
 </html>
 
