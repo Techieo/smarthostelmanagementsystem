@@ -68,12 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Update room status to Booked
         $stmt = $conn->prepare("UPDATE rooms SET status='Booked' WHERE room_id=?");
-$stmt->bind_param("i", $room_id);
-
+        $stmt->bind_param("i", $room_id);
         $stmt->execute();
 
         // Insert booking record
-        $stmt2 = $conn->prepare("INSERT INTO bookings (student_id, room_id, booking_date, created_at) 
+        $stmt2 = $conn->prepare("INSERT INTO bookings (student_id, room_id, booking_date, date_created) 
                                  VALUES (?, ?, ?, NOW())");
         $stmt2->bind_param("iis", $student_id, $room_id, $booking_date);
         $stmt2->execute();
@@ -82,6 +81,7 @@ $stmt->bind_param("i", $room_id);
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
