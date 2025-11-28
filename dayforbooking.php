@@ -65,13 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
+
         // Update room status to Booked
         $stmt = $conn->prepare("UPDATE rooms SET status='Booked', booked_by=? WHERE room_id=?");
         $stmt->bind_param("ii", $student_id, $room_id);
         $stmt->execute();
 
         // Insert booking record
-        $stmt2 = $conn->prepare("INSERT INTO bookings (student_id, room_id, booking_date, created_at) VALUES (?, ?, ?, NOW())");
+        $stmt2 = $conn->prepare("INSERT INTO bookings (student_id, room_id, booking_date, created_at) 
+                                 VALUES (?, ?, ?, NOW())");
         $stmt2->bind_param("iis", $student_id, $room_id, $booking_date);
         $stmt2->execute();
 
@@ -79,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
